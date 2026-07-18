@@ -100,7 +100,13 @@ export function FeedbackCapture({
       .then((response) => (response.ok ? response.json() : null))
       .then((data: CapabilityProbeResponse | null) => {
         if (cancelled) return;
-        setAllowed(Boolean(data?.isAdmin));
+        // `isAdmin` alone is too narrow: a host with role tiers (e.g. GGB's
+        // admin/content_manager) can resolve a non-null `role` for a
+        // authorized-but-not-full-admin viewer, with `isAdmin` false. A host
+        // with no role concept (e.g. briankudera) always reports `role: null`
+        // even when `isAdmin` is true. Checking either field covers both
+        // shapes without assuming which one a given host actually varies.
+        setAllowed(Boolean(data?.isAdmin || data?.role));
         setProbeResolved(true);
       })
       .catch(() => {
