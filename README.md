@@ -196,3 +196,5 @@ npm install
 npm run typecheck
 npm test
 ```
+
+<!-- scratch: e2e CI verification for TASK-002, deleted after use -->
