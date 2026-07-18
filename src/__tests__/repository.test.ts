@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { FeedbackRecord, FeedbackRepository } from "../repository.js";
+import type { FeedbackRecord, FeedbackRepository } from "../repository";
 
 function makeInMemoryRepository(): FeedbackRepository {
   const rows = new Map<string, FeedbackRecord>();

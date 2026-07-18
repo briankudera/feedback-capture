@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { SCREENSHOT_MAX_BYTES } from "../constants.js";
-import { feedbackPayloadSchema } from "../payload-schema.js";
+import { SCREENSHOT_MAX_BYTES } from "../constants";
+import { feedbackPayloadSchema } from "../payload-schema";
 
 const validPayload = {
   pageUrl: "/get/donate",

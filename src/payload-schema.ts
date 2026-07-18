@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CHANGE_KINDS, SCREENSHOT_MAX_BYTES } from "./constants.js";
+import { CHANGE_KINDS, SCREENSHOT_MAX_BYTES } from "./constants";
 
 export const viewportSchema = z.object({
   width: z.number().finite().positive().max(10000),

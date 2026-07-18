@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { FeedbackCapture } from "../feedback-capture.js";
+import { FeedbackCapture } from "../feedback-capture";
 
 vi.mock("@medv/finder", () => ({
   finder: vi.fn(() => "main h1"),

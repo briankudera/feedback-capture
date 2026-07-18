@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { ResolveViewer } from "../auth-types.js";
-import type { FeedbackRecord, FeedbackRepository } from "../repository.js";
-import { createFeedbackHandlers } from "../route-handlers.js";
+import type { ResolveViewer } from "../auth-types";
+import type { FeedbackRecord, FeedbackRepository } from "../repository";
+import { createFeedbackHandlers } from "../route-handlers";
 
 const validPayload = {
   pageUrl: "/get/donate",

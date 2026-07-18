@@ -1,8 +1,8 @@
 import type { z } from "zod";
-import type { ResolveViewer } from "./auth-types.js";
-import { feedbackPayloadSchema } from "./payload-schema.js";
-import type { FeedbackRepository } from "./repository.js";
-import { requireJsonContentType, UUID_RE } from "./validation-helpers.js";
+import type { ResolveViewer } from "./auth-types";
+import { feedbackPayloadSchema } from "./payload-schema";
+import type { FeedbackRepository } from "./repository";
+import { requireJsonContentType, UUID_RE } from "./validation-helpers";
 
 export type FeedbackHandlerDeps = {
   resolveViewer: ResolveViewer;

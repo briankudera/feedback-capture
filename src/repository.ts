@@ -1,4 +1,4 @@
-import type { ChangeKind } from "./constants.js";
+import type { ChangeKind } from "./constants";
 
 /**
  * The full `feedback_request` row shape at the JSON boundary — timestamps as

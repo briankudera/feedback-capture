@@ -3,7 +3,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getTableColumns } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
-import { feedbackRequest } from "../schema/feedback-request.js";
+import { feedbackRequest } from "../schema/feedback-request";
 
 // Opt-in: requires a scratch Postgres reachable at TEST_DATABASE_URL. Skipped
 // otherwise so `npm test` never depends on a live database (REQ-031
