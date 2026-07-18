@@ -198,3 +198,4 @@ npm test
 ```
 
 <!-- scratch: e2e CI verification for TASK-002, deleted after use -->
+<!-- second commit for AC-002 new-commit-trigger verification -->
