@@ -54,6 +54,10 @@ Copy `migrations/0001_feedback_request.sql`'s table shape into your own Drizzle
 schema (see `src/schema/feedback-request.ts` for the Drizzle table definition)
 and apply the migration through your own migration runner.
 
+**Host has no Drizzle/Node-side DB access?** See "Non-Node storage backends
+(proxy pattern)" below instead of step 1 — you'll implement `FeedbackRepository`
+against your existing backend's API rather than against this table directly.
+
 ### 2. Implement the auth adapter
 
 ```ts
@@ -93,6 +97,86 @@ import { FeedbackCapture } from "feedback-capture";
   capabilityProbeEndpoint="/api/admin/me"
 />;
 ```
+
+## Non-Node storage backends (proxy pattern)
+
+`FeedbackRepository` is a plain interface — the route-handler factory never
+imports Drizzle or any concrete client (see `src/repository.ts`). The
+Drizzle table + migration is the *default* storage, not a requirement. If
+your Next.js app has no Node-side DB access — e.g. it's a pure frontend that
+proxies everything to a separate backend (FastAPI, Rails, a different Node
+service) — implement `FeedbackRepository` as a thin HTTP client against that
+backend instead of standing up a second, parallel database connection just
+for this feature:
+
+```ts
+import type { FeedbackRepository } from "feedback-capture";
+
+const API_BASE = process.env.BACKEND_API_URL!;
+
+export const feedbackRepository: FeedbackRepository = {
+  async insert(payload, submittedBy) {
+    const res = await fetch(`${API_BASE}/feedback`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ...payload, submittedBy }),
+    });
+    if (!res.ok) throw new Error(`backend insert failed: ${res.status}`);
+    return res.json();
+  },
+  async list(limit) {
+    const res = await fetch(`${API_BASE}/feedback?limit=${limit}`);
+    if (!res.ok) throw new Error(`backend list failed: ${res.status}`);
+    const { requests } = await res.json();
+    return requests;
+  },
+  async findById(id) {
+    const res = await fetch(`${API_BASE}/feedback/${id}`);
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`backend findById failed: ${res.status}`);
+    return res.json();
+  },
+  async setDelivered(id, delivered) {
+    const res = await fetch(`${API_BASE}/feedback/${id}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ delivered }),
+    });
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`backend setDelivered failed: ${res.status}`);
+    return res.json();
+  },
+  async delete(id) {
+    const res = await fetch(`${API_BASE}/feedback/${id}`, { method: "DELETE" });
+    return res.ok;
+  },
+};
+```
+
+The backend owns the actual table (any shape it wants, as long as the JSON
+response matches `FeedbackRecord`) and the migration; the `feedback_request`
+Drizzle schema and `migrations/0001_feedback_request.sql` in this package
+become a reference shape to replicate in the backend's own migration tool
+(e.g. Alembic), not something you run directly. `resolveViewer` can follow
+the same shape — call your backend's session-check endpoint instead of
+checking a local session store:
+
+```ts
+import type { ResolveViewer } from "feedback-capture";
+
+export const resolveViewer: ResolveViewer = async (request) => {
+  const res = await fetch(`${API_BASE}/auth/me`, {
+    headers: { cookie: request.headers.get("cookie") ?? "" },
+  });
+  if (!res.ok) return null;
+  const { userId, isAdmin } = await res.json();
+  return isAdmin ? { authorized: true, submittedBy: userId } : { authorized: false };
+};
+```
+
+Everything from step 2 onward (auth adapter, route-handler wiring, widget
+mount) is unchanged — the proxy only affects how `FeedbackRepository` is
+implemented, not how it's consumed.
 
 ## Why no build step
 
