@@ -1,0 +1,12 @@
+# GO v2 repository policy for feedback-capture.
+# See developer-kit-project-management:go references/... for the full schema;
+# unset keys fall back to policy.py's safe defaults.
+
+# Fastest command mirroring this repo's CI merge gate (spec 001-ci-workflow:
+# .github/workflows/ci.yml runs `npm ci` -> `npm run typecheck` -> `npm test`).
+pre_pr_cmd: "npm run typecheck && npm test"
+
+# Spec-authoring PRs (this repo's docs/specs/ tree) never touch source —
+# skip pre_pr_cmd for them specifically.
+docs_only_paths:
+  - "docs/specs/**"
