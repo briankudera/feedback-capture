@@ -12,7 +12,7 @@ const validPayload = {
 describe("feedbackPayloadSchema", () => {
   it("accepts a fully valid payload", () => {
     const result = feedbackPayloadSchema.safeParse(validPayload);
-    expect(result.success).toBe(true);
+    expect(result.success).toBe(false); // scratch: deliberate failing assertion for TASK-002 AC-008 verification
   });
 
   it.each(["pageUrl", "elementSelector", "requestText", "viewport"])(
