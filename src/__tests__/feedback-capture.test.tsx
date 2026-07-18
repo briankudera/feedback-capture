@@ -91,6 +91,22 @@ describe("FeedbackCapture", () => {
     expect(await screen.findByRole("button", { name: /open feedback capture/i })).toBeInTheDocument();
   });
 
+  it("renders for a role-tiered host's non-full-admin role even when isAdmin is false", async () => {
+    // Regression: a host with role tiers (e.g. GGB admin/content_manager) can
+    // resolve isAdmin:false for an authorized-but-not-full-admin viewer, with
+    // a non-null role instead. The widget must not gate solely on isAdmin.
+    installFetch({ probe: { isAdmin: false, role: "content_manager" } });
+    renderWidget();
+    expect(await screen.findByRole("button", { name: /open feedback capture/i })).toBeInTheDocument();
+  });
+
+  it("stays hidden for a role-agnostic host's unauthorized result (isAdmin false, role null)", async () => {
+    installFetch({ probe: { isAdmin: false, role: null } });
+    renderWidget();
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledWith(PROBE, expect.anything()));
+    expect(screen.queryByRole("button", { name: /open feedback capture/i })).not.toBeInTheDocument();
+  });
+
   it("captures a selected element without copying input values", async () => {
     renderWidget(
       <input aria-label="Secret field" defaultValue="private value" data-component="InputThing" />,
