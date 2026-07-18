@@ -1,7 +1,7 @@
 import { getTableColumns } from "drizzle-orm";
 import { getTableConfig } from "drizzle-orm/pg-core";
 import { describe, expect, it } from "vitest";
-import { feedbackRequest } from "../schema/feedback-request.js";
+import { feedbackRequest } from "../schema/feedback-request";
 
 const DOCUMENTED_FIELDS = [
   "id",

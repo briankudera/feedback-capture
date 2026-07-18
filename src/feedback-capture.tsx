@@ -4,9 +4,9 @@ import { finder } from "@medv/finder";
 import { Check, MessageSquare, MousePointer2, Send, X } from "lucide-react";
 import { domToPng } from "modern-screenshot";
 import React, { useEffect, useMemo, useState } from "react";
-import { CHANGE_KINDS, SCREENSHOT_MAX_BYTES, type ChangeKind } from "./constants.js";
+import { CHANGE_KINDS, SCREENSHOT_MAX_BYTES, type ChangeKind } from "./constants";
 import styles from "./feedback-capture.module.css";
-import type { CapabilityProbeResponse } from "./auth-types.js";
+import type { CapabilityProbeResponse } from "./auth-types";
 
 const SAVED_TOAST_MS = 3500;
 

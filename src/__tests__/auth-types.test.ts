@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { CapabilityProbeResponse, ResolveViewer, ViewerResolution } from "../auth-types.js";
+import type { CapabilityProbeResponse, ResolveViewer, ViewerResolution } from "../auth-types";
 
 function acceptsResolveViewer(_fn: ResolveViewer): void {}
 
