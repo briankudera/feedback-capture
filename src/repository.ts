@@ -41,11 +41,15 @@ type InsertPayload = {
  * `payload`, so deriving it from the request body is structurally impossible
  * (REQ-025, REQ-NR002). The delivered-record delete guard is enforced at the
  * route-handler-factory level, not required inside implementations of this
- * interface (data-model.md §2).
+ * interface (data-model.md §2) — `findById` is what lets the factory read
+ * `delivered` before deciding whether to call `delete` (REQ-023, REQ-NR004);
+ * it was added while implementing TASK-005, which needs it to enforce that
+ * guard without every host re-implementing the check itself.
  */
 export interface FeedbackRepository {
   insert(payload: InsertPayload, submittedBy: string): Promise<FeedbackRecord>;
   list(limit: number): Promise<FeedbackRecord[]>;
+  findById(id: string): Promise<FeedbackRecord | null>;
   setDelivered(id: string, delivered: boolean): Promise<FeedbackRecord | null>;
   delete(id: string): Promise<boolean>;
 }

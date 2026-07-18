@@ -8,3 +8,9 @@ export type { CapabilityProbeResponse, ResolveViewer, ViewerResolution } from ".
 
 export { feedbackRequest } from "./schema/feedback-request.js";
 export type { FeedbackRecord, FeedbackRepository } from "./repository.js";
+
+export { createFeedbackHandlers } from "./route-handlers.js";
+export type { FeedbackHandlerDeps } from "./route-handlers.js";
+
+export { FeedbackCapture } from "./feedback-capture.js";
+export type { FeedbackCaptureProps } from "./feedback-capture.js";

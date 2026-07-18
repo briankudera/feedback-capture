@@ -31,6 +31,9 @@ function makeInMemoryRepository(): FeedbackRepository {
     async list(limit) {
       return Array.from(rows.values()).slice(0, limit);
     },
+    async findById(id) {
+      return rows.get(id) ?? null;
+    },
     async setDelivered(id, delivered) {
       const existing = rows.get(id);
       if (!existing) return null;
@@ -67,6 +70,9 @@ describe("FeedbackRepository (in-memory conformance)", () => {
 
     const listed = await repository.list(10);
     expect(listed).toHaveLength(1);
+
+    expect((await repository.findById(created.id))?.id).toBe(created.id);
+    expect(await repository.findById("missing")).toBeNull();
 
     const delivered = await repository.setDelivered(created.id, true);
     expect(delivered?.delivered).toBe(true);
