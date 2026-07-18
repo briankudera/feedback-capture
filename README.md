@@ -59,9 +59,12 @@ and apply the migration through your own migration runner.
 ```ts
 import type { ResolveViewer, CapabilityProbeResponse } from "feedback-capture";
 
+// Wrap your own auth system here. `submittedBy` must be present whenever
+// `authorized` is true — it's the only identity a create handler may persist.
 const resolveViewer: ResolveViewer = async (request) => {
-  // Wrap your own auth system here. Must return `submittedBy` whenever
-  // `authorized` is true.
+  const session = await getSessionSomehow(request);
+  if (!session) return { authorized: false };
+  return { authorized: true, submittedBy: session.userId };
 };
 ```
 
@@ -69,10 +72,12 @@ const resolveViewer: ResolveViewer = async (request) => {
 
 ```ts
 import { createFeedbackHandlers } from "feedback-capture";
-import { resolveViewer } from "@/lib/feedback-auth";
+import { resolveViewer } from "@/lib/feedback-auth-adapter";
 import { feedbackRepository } from "@/lib/feedback-repository";
 
-export const { create, list, setDelivered, remove } = createFeedbackHandlers({
+// createFeedbackHandlers() returns { create, list, setDelivered, delete } —
+// note the key is literally `delete`, not `remove`.
+export const { create, list, setDelivered, delete: remove } = createFeedbackHandlers({
   resolveViewer,
   repository: feedbackRepository,
 });
