@@ -3,7 +3,7 @@ id: TASK-001
 title: "Add PR-triggered CI workflow (typecheck + test gate)"
 spec: docs/specs/001-ci-workflow/2026-07-18--ci-workflow.md
 lang: general
-status: pending
+status: completed
 dependencies: []
 timeout: 900
 files: [.github/workflows/ci.yml]
