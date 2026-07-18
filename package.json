@@ -41,6 +41,7 @@
     "@types/react": "^19",
     "@vitejs/plugin-react": "^4.3.4",
     "@types/pg": "^8.11.10",
+    "@vitest/coverage-v8": "^4.1.6",
     "jsdom": "^25.0.1",
     "next": "^16.2.6",
     "pg": "^8.21.0",
