@@ -1,0 +1,51 @@
+{
+  "name": "feedback-capture",
+  "version": "0.1.0",
+  "private": false,
+  "license": "MIT",
+  "type": "module",
+  "description": "Point-and-click feedback capture widget + write path for Next.js sites",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "migrations",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "next": "^16.0.0",
+    "zod": "^4.0.0"
+  },
+  "dependencies": {
+    "@medv/finder": "^4.0.2",
+    "modern-screenshot": "^4.7.0",
+    "lucide-react": "^1.16.0",
+    "drizzle-orm": "^0.45.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^25.0.1",
+    "next": "^16.2.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "typescript": "^5",
+    "vitest": "^4.1.6",
+    "zod": "^4.4.3"
+  }
+}
