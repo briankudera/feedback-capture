@@ -23,7 +23,7 @@ This package is distributed as a git-URL dependency (no npm registry publish
 yet):
 
 ```bash
-npm install github:briankudera/feedback-capture
+npm install github:behindthedash/feedback-capture
 ```
 
 No authentication token is required — the repository is public.
