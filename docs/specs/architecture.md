@@ -60,7 +60,7 @@ concern for this repo itself is CI.
 | Component | Technology | Version | Purpose | Environment |
 |-----------|-----------|---------|---------|-------------|
 | CI/CD | GitHub Actions (GitHub-hosted runner) | N/A | typecheck + test gate on PRs to `main` | All |
-| Distribution | git-URL dependency (`github:briankudera/feedback-capture`) | N/A | No npm registry publish | All |
+| Distribution | git-URL dependency (`github:behindthedash/feedback-capture`) | N/A | No npm registry publish | All |
 
 ### 2.5 Environments
 
